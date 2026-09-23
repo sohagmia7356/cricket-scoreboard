@@ -1,0 +1,83 @@
+<script>
+const API_TOKEN = "তোমার_API_TOKEN_এখানে";
+
+async function updateScoreboard() {
+      try {
+            const response = await fetch(
+                      "https://cricketliveapi.com/api/v1/cricket/live",
+                            {
+                                        headers: {
+                                                      Authorization: `Bearer ${API_TOKEN}`
+                                        }
+                            }
+            );
+
+                const result = await response.json();
+
+                    if (!result.success || !result.data || result.data.length === 0) {
+                              document.querySelector(".live").textContent = "● NO LIVE MATCH";
+                                    return;
+                    }
+
+                        const match = result.data[0];
+                            const firstTeam = match.first_team || {};
+                                const secondTeam = match.second_team || {};
+
+                                    const teams = document.querySelectorAll(".teamname");
+
+                                        if (teams[0]) {
+                                                  teams[0].textContent =
+                                                          firstTeam.full_name || firstTeam.name || "TEAM A";
+                                        }
+
+                                            if (teams[1]) {
+                                                      teams[1].textContent =
+                                                              secondTeam.full_name || secondTeam.name || "TEAM B";
+                                            }
+
+                                                const codes = document.querySelectorAll(".code");
+
+                                                    if (codes[0]) codes[0].textContent = firstTeam.name || "";
+                                                        if (codes[1]) codes[1].textContent = secondTeam.name || "";
+
+                                                            const runs = document.querySelector(".runs");
+
+                                                                if (runs) {
+                                                                          runs.textContent = firstTeam.score || "0/0";
+                                                                }
+
+                                                                    const matchInfo = document.querySelector(".match");
+
+                                                                        if (matchInfo) {
+                                                                                  matchInfo.textContent =
+                                                                                          `${match.format || "CRICKET"} | ${match.match_desc || ""}`;
+                                                                        }
+
+                                                                            const live = document.querySelector(".live");
+
+                                                                                if (live) {
+                                                                                          live.textContent =
+                                                                                                  match.status_detail
+                                                                                                            ? "● " + match.status_detail
+                                                                                                                      : "● LIVE";
+                                                                                }
+
+      } catch (error) {
+            console.error("API Error:", error);
+
+                const live = document.querySelector(".live");
+
+                    if (live) {
+                              live.textContent = "● API ERROR";
+                    }
+      }
+}
+
+updateScoreboard();
+setInterval(updateScoreboard, 15000);
+</script>
+                                        }
+                            }
+            )
+      }
+}
