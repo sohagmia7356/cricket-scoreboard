@@ -131,7 +131,7 @@ async function load(){
   status.textContent="Live score loading...";
 
   try{
-    const url="https://cricketliveapi.com/api/v1/match/"+encodeURIComponent(id)+"/scorecard";
+    const url="https://cricketliveapi.com/api/v1/cricket/match/"+encodeURIComponent(id)+"/scorecard";
     const res=await fetch(url,{
       headers:{
         "Authorization":"Bearer "+token,
